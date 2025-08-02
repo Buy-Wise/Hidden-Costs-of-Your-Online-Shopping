@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Buy Wise Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Vibrant & Trustworthy (Blues, Greens, Amber) -->
+    <!-- Application Structure Plan: A four-part thematic structure: 1. The Wake-Up Call (Problem), 2. The Deception Playbook (Tactics), 3. Your Smart Toolkit (Solutions), 4. The Pledge (Empowerment). This non-linear, interactive flow is designed for better engagement and usability than a simple report, guiding the user from awareness to action with elements like a sticky nav, interactive charts, and a hands-on EMI calculator. -->
+    <!-- Visualization & Content Choices: Financial Fraud -> Bar Chart (Change); EMI Costs -> Donut Chart + JS Calculator (Inform/Compare); Counterfeits -> Donut Chart (Compare); Fake Reviews -> HTML Checklist (Organize); Psych Tactics -> HTML/CSS Cards (Inform). These choices prioritize interactivity and clarity, using Chart.js (Canvas) and structured HTML/CSS to make complex data tangible and easy to understand. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB; /* gray-50 */
+            color: #111827; /* gray-900 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-h: 400px;
+        }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link.active {
+            color: #2563EB; /* blue-600 */
+            border-bottom-color: #2563EB;
+        }
+        .tab-button.active {
+            background-color: #2563EB; /* blue-600 */
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Sticky Navigation -->
+    <nav id="navbar" class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-3">
+                <div class="text-xl font-bold text-blue-600">Buy Wise</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#problem" class="nav-link text-gray-700 hover:text-blue-600 border-b-2 border-transparent pb-1">The Problem</a>
+                    <a href="#tactics" class="nav-link text-gray-700 hover:text-blue-600 border-b-2 border-transparent pb-1">The Tactics</a>
+                    <a href="#toolkit" class="nav-link text-gray-700 hover:text-blue-600 border-b-2 border-transparent pb-1">Your Toolkit</a>
+                    <a href="#pledge" class="nav-link text-gray-700 hover:text-blue-600 border-b-2 border-transparent pb-1">Take Action</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Section 1: The Wake-Up Call -->
+        <section id="problem" class="pt-16 -mt-16 text-center">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4">The Hidden Cost of Your Click</h1>
+            <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-12">Online shopping in India is a double-edged sword. While convenient, it's a landscape where deceptive tactics lead to staggering financial losses for consumers just like you.</p>
+            
+            <!-- How to Explore Section -->
+            <div class="bg-blue-50 p-6 rounded-lg shadow-sm mb-12 text-left max-w-2xl mx-auto border border-blue-200">
+                <h3 class="text-xl font-bold text-blue-700 mb-3">How to Explore This Guide:</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Use the **navigation bar** at the top to jump between sections like "The Problem" and "Your Toolkit."</li>
+                    <li>Click on the **tabs** within "The Deception Playbook" to switch between "Misleading Deals," "Mind Games," and "Fakes & Phonies."</li>
+                    <li>Interact with the **EMI calculator** by changing the product price to see the true cost.</li>
+                    <li>Hover over **charts** to view specific data points and details.</li>
+                </ul>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white p-8 rounded-2xl shadow-md">
+                <div class="text-left">
+                    <h2 class="text-3xl font-bold text-blue-600 mb-4">India's Online Fraud Epidemic</h2>
+                    <p class="text-gray-700 mb-4">The financial toll of online fraud is escalating at an alarming rate. In 2024, Indian consumers lost a staggering amount to cyber criminals, marking a dramatic increase from the previous year. This chart illustrates the urgent reality of the risks involved.</p>
+                    <div class="text-4xl font-extrabold text-emerald-600">206% Increase</div>
+                    <p class="text-gray-600">in financial losses from 2023 to 2024.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="fraudChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Deception Playbook -->
+        <section id="tactics" class="pt-24 -mt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">The Deception Playbook</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto mt-2">Platforms use a sophisticated set of strategies to influence your spending. Here’s how they do it.</p>
+            </div>
+
+            <div class="bg-white p-4 sm:p-8 rounded-2xl shadow-md">
+                <div class="flex justify-center mb-6 border-b border-gray-200">
+                    <button class="tab-button flex-1 sm:flex-none px-4 py-2 text-sm sm:text-base font-semibold text-gray-700 rounded-t-lg transition" data-tab="deals">Misleading Deals</button>
+                    <button class="tab-button flex-1 sm:flex-none px-4 py-2 text-sm sm:text-base font-semibold text-gray-700 rounded-t-lg transition" data-tab="mind-games">Mind Games</button>
+                    <button class="tab-button flex-1 sm:flex-none px-4 py-2 text-sm sm:text-base font-semibold text-gray-700 rounded-t-lg transition" data-tab="fakes">Fakes & Phonies</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="deals" class="tab-content">
+                    <h3 class="text-2xl font-bold text-center mb-2">The "No-Cost" EMI Trap</h3>
+                    <p class="text-gray-700 text-center max-w-2xl mx-auto mb-8">That "interest-free" offer isn't truly free. Use our calculator to see the hidden costs platforms don't advertise.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <label for="productPrice" class="block font-semibold mb-2">Enter Product Price (₹)</label>
+                            <input type="number" id="productPrice" value="50000" class="w-full p-2 border border-gray-300 rounded-md mb-4">
+                            <div class="space-y-2 text-sm">
+                                <p><strong>Advertised "No-Cost" EMI:</strong> <span id="advertisedEMI" class="font-bold"></span></p>
+                                <p class="text-red-600"><strong>+ Hidden Interest (for GST calc):</strong> <span id="hiddenInterest" class="font-bold"></span></p>
+                                <p class="text-red-600"><strong>+ GST on Interest (18%):</strong> <span id="gstCost" class="font-bold"></span></p>
+                                <p class="text-red-600"><strong>+ Bank Processing Fee:</strong> <span id="processingFee" class="font-bold"></span></p>
+                                <hr class="my-2">
+                                <p class="text-lg"><strong>True Cost of Your "Deal":</strong> <span id="trueCost" class="font-bold text-xl text-blue-600"></span></p>
+                            </div>
+                        </div>
+                        <div class="chart-container h-64 sm:h-80">
+                            <canvas id="emiChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="mind-games" class="tab-content hidden">
+                    <h3 class="text-2xl font-bold text-center mb-8">Psychological Tricks of the Trade</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="border border-gray-200 p-6 rounded-lg text-center hover:shadow-sm transition-shadow">
+                            <div class="text-4xl mb-3">⏱️</div>
+                            <h4 class="font-bold text-lg mb-2">Scarcity & Urgency</h4>
+                            <p class="text-gray-700 text-sm">"Only 2 left!" and countdown timers create a fear of missing out (FOMO), pushing you to buy without thinking.</p>
+                        </div>
+                        <div class="border border-gray-200 p-6 rounded-lg text-center hover:shadow-sm transition-shadow">
+                            <div class="text-4xl mb-3">⚓</div>
+                            <h4 class="font-bold text-lg mb-2">Anchoring Bias</h4>
+                            <p class="text-gray-700 text-sm">A high, crossed-out "original price" makes the sale price seem like a fantastic deal, even if it's not.</p>
+                        </div>
+                        <div class="border border-gray-200 p-6 rounded-lg text-center hover:shadow-sm transition-shadow">
+                            <div class="text-4xl mb-3">⭐</div>
+                            <h4 class="font-bold text-lg mb-2">Social Proof</h4>
+                            <p class="text-gray-700 text-sm">"Bestseller" tags and thousands of (often fake) reviews pressure you to conform and trust the crowd.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fakes" class="tab-content hidden">
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4">The Counterfeit Market</h3>
+                            <p class="text-gray-700 mb-4">A shocking percentage of goods sold online are fakes. Apparel and electronics are the riskiest categories. One in three Indian shoppers has received a counterfeit product.</p>
+                             <div class="chart-container h-64 sm:h-80">
+                                <canvas id="counterfeitChart"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4">How to Spot a Fake Review</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">✓</span><div><strong class="text-gray-900">Vague Language:</strong> Overly generic praise like "Awesome product!" with no specifics.</div></li>
+                                <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">✓</span><div><strong class="text-gray-900">Reviewer Profile:</strong> The user only leaves 5-star reviews or reviews many unrelated items quickly.</div></li>
+                                <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">✓</span><div><strong class="text-gray-900">Suspicious Timing:</strong> A sudden flood of positive reviews on the same day.</div></li>
+                                <li class="flex items-start"><span class="text-red-500 mr-3 mt-1">✗</span><div><strong class="text-gray-900">No "Verified Purchase":</strong> The reviewer may not have actually bought the item.</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Your Smart Toolkit -->
+        <section id="toolkit" class="pt-24 -mt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Your Smart Shopping Toolkit</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto mt-2">Fight back with knowledge. Here are the strategies and tools you need to become a Buy Wise shopper.</p>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow-md">
+                <h3 class="text-2xl font-bold text-center mb-8">The Pre-Purchase Checklist</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="text-center p-4"><div class="mx-auto w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-2">1</div><h4 class="font-semibold">Compare Prices</h4><p class="text-sm text-gray-600">Use tracker tools</p></div>
+                    <div class="text-gray-300 text-2xl font-light hidden md:block">&rarr;</div>
+                    <div class="text-gray-300 text-2xl font-light md:hidden">&darr;</div>
+                    <div class="text-center p-4"><div class="mx-auto w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-2">2</div><h4 class="font-semibold">Analyze Reviews</h4><p class="text-sm text-gray-600">Check for fakes</p></div>
+                    <div class="text-gray-300 text-2xl font-light hidden md:block">&rarr;</div>
+                    <div class="text-gray-300 text-2xl font-light md:hidden">&darr;</div>
+                    <div class="text-center p-4"><div class="mx-auto w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-2">3</div><h4 class="font-semibold">Vet the Seller</h4><p class="text-sm text-gray-600">Check their rating</p></div>
+                    <div class="text-gray-300 text-2xl font-light hidden md:block">&rarr;</div>
+                    <div class="text-gray-300 text-2xl font-light md:hidden">&darr;</div>
+                    <div class="text-center p-4"><div class="mx-auto w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mb-2">4</div><h4 class="font-semibold">Read T&Cs</h4><p class="text-sm text-gray-600">Check return policy</p></div>
+                </div>
+                <hr class="my-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl font-bold mb-4">Recommended Tools</h4>
+                        <ul class="space-y-3">
+                           <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">›</span><div><strong class="text-gray-900">Price History Extension:</strong> Track price graphs on Amazon & Flipkart.</div></li>
+                           <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">›</span><div><strong class="text-gray-900">MySmartPrice / CompareRaja:</strong> Compare deals across multiple sites.</div></li>
+                           <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">›</span><div><strong class="text-gray-900">Fakespot / ReviewMeta:</strong> Analyze review quality and filter out fakes.</div></li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h4 class="text-xl font-bold mb-4">Pro Savings Hacks</h4>
+                        <ul class="space-y-3">
+                           <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">›</span><div><strong class="text-gray-900">Abandon Your Cart:</strong> Wait for a follow-up discount email from the retailer.</div></li>
+                           <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">›</span><div><strong class="text-gray-900">Use Bank Offers:</strong> Check for credit/debit card discounts, but read the T&Cs for caps and minimums.</div></li>
+                           <li class="flex items-start"><span class="text-emerald-600 mr-3 mt-1">›</span><div><strong class="text-gray-900">Shop Off-Season:</strong> Buy electronics during specific sale periods like Prime Day or after new models launch.</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Call to Action -->
+        <section id="pledge" class="pt-24 -mt-16 text-center">
+            <div class="bg-blue-600 text-white p-8 md:p-12 rounded-2xl shadow-md">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">🎉 Hey Smart Shoppers! 🎉</h2>
+                <p class="text-lg max-w-2xl mx-auto">✨ Tired of endless scrolling & shady deals?</p>
+                <p class="text-lg max-w-2xl mx-auto mb-2">Say hello to Buy Wise—your no-nonsense research buddy! 🔍💡</p>
+                <p class="text-lg max-w-2xl mx-auto mb-6">💸 We hunt down the BEST value-for-money finds so you don’t have to. Save time, money & brainpower with ZERO bias—no sponsors, just honest insights. 🕒💰🧠</p>
+                <p class="text-lg max-w-2xl mx-auto mb-6">🎁 FREE research for the first 100 sign-ups! 🚀 Claim your spot and enjoy stress-free shopping today.</p>
+                <p class="text-lg max-w-2xl mx-auto mb-8">👇 Ready to shop smarter? Sign up now & let us know what you think! 👇</p>
+                
+                <a href="https://beacons.ai/webuywise" target="_blank" class="inline-block bg-emerald-500 text-white font-bold py-3 px-8 rounded-full hover:bg-emerald-600 transition-colors">Check out our Instagram bio link.</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 text-gray-600 text-sm">
+        <p>Data synthesized from "The Savvy Shopper's Guide". Research as of July 2025.</p>
+        <p>This interactive guide is for informational purposes only.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Navigation Logic ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // --- Tab Logic ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const tabId = button.dataset.tab;
+                    tabContents.forEach(content => {
+                        content.classList.toggle('hidden', content.id !== tabId);
+                    });
+                });
+            });
+            // Set initial active tab
+            document.querySelector('.tab-button[data-tab="deals"]').classList.add('active');
+
+
+            // --- Chart.js Logic ---
+            const primaryBlue = '#2563EB'; /* blue-600 */
+            const emeraldGreen = '#10B981'; /* emerald-500 */
+            const amberYellow = '#F59E0B'; /* amber-500 */
+            const gray400 = '#9CA3AF'; /* gray-400 */
+            const gray200 = '#E5E7EB'; /* gray-200 */
+            const gray600 = '#4B5563'; /* gray-600 */
+
+            const commonChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: primaryBlue,
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 12 },
+                        padding: 10,
+                        cornerRadius: 4,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gray200 },
+                        ticks: { color: gray600 }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: gray600 }
+                    }
+                }
+            };
+            
+            // Fraud Chart
+            const fraudCtx = document.getElementById('fraudChart').getContext('2d');
+            new Chart(fraudCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2023', '2024'],
+                    datasets: [{
+                        label: 'Financial Loss (in ₹ Crore)',
+                        data: [7465.18, 22845.73],
+                        backgroundColor: [gray400, primaryBlue],
+                        borderRadius: 4,
+                    }]
+                },
+                options: commonChartOptions
+            });
+
+            // EMI Calculator and Chart
+            const priceInput = document.getElementById('productPrice');
+            const advertisedEMIEl = document.getElementById('advertisedEMI');
+            const hiddenInterestEl = document.getElementById('hiddenInterest');
+            const gstCostEl = document.getElementById('gstCost');
+            const processingFeeEl = document.getElementById('processingFee');
+            const trueCostEl = document.getElementById('trueCost');
+            const emiCtx = document.getElementById('emiChart').getContext('2d');
+            let emiChart;
+
+            function updateEMI() {
+                const price = parseFloat(priceInput.value) || 0;
+                const interestRate = 0.15; // Assuming a 15% annual interest for calculation
+                const tenure = 12; // months
+                
+                const interestAmount = price * interestRate;
+                const gstOnInterest = interestAmount * 0.18;
+                const processingFee = 199;
+                const totalCost = price + gstOnInterest + processingFee;
+                
+                const advertisedEMI = (price + interestAmount) / tenure;
+
+                advertisedEMIEl.textContent = `₹${advertisedEMI.toFixed(2)}/mo`;
+                hiddenInterestEl.textContent = `₹${interestAmount.toFixed(2)}`;
+                gstCostEl.textContent = `₹${gstOnInterest.toFixed(2)}`;
+                processingFeeEl.textContent = `₹${processingFee.toFixed(2)}`;
+                trueCostEl.textContent = `₹${totalCost.toFixed(2)}`;
+
+                const chartData = {
+                    labels: ['Product Price', 'GST on Interest', 'Processing Fee'],
+                    datasets: [{
+                        data: [price, gstOnInterest, processingFee],
+                        backgroundColor: [emeraldGreen, amberYellow, gray400],
+                        borderWidth: 0,
+                    }]
+                };
+
+                if (emiChart) {
+                    emiChart.data = chartData;
+                    emiChart.update();
+                } else {
+                    emiChart = new Chart(emiCtx, {
+                        type: 'doughnut',
+                        data: chartData,
+                        options: {
+                             responsive: true,
+                             maintainAspectRatio: false,
+                             plugins: {
+                                legend: { position: 'bottom', labels: { color: gray600 } },
+                                tooltip: commonChartOptions.plugins.tooltip
+                             }
+                        }
+                    });
+                }
+            }
+
+            priceInput.addEventListener('input', updateEMI);
+            updateEMI(); // Initial call
+
+            // Counterfeit Chart
+            const counterfeitCtx = document.getElementById('counterfeitChart').getContext('2d');
+            new Chart(counterfeitCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Apparel', 'FMCG', 'Automotives', 'Pharma', 'Durables'],
+                    datasets: [{
+                        data: [31, 28, 25, 20, 17],
+                        backgroundColor: [primaryBlue, emeraldGreen, amberYellow, gray400, gray600],
+                        borderWidth: 0,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: gray600 } },
+                        tooltip: commonChartOptions.plugins.tooltip
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
